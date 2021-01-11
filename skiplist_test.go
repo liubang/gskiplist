@@ -15,7 +15,7 @@ func TestInsert(t *testing.T) {
 	i := 0
 	for it.SeekToFirst(); it.Valid(); it.Next() {
 		i++
-		fmt.Println(it.Key())
+		fmt.Println(it.Key(), "::", skiplist.EstimateCount(it.Key()))
 	}
 	fmt.Println(i)
 }

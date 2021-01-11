@@ -125,3 +125,23 @@ func (skiplist *SkipList) Contains(key interface{}) bool {
 	_, x := skiplist.FindGreaterOrEqual(key)
 	return x != nil && skiplist.Equal(key, x.key)
 }
+
+func (skiplist *SkipList) EstimateCount(key interface{}) int {
+	count := 0
+	x := skiplist.head
+	level := skiplist.GetMaxHeight() - 1
+	for {
+		next := x.Next(level)
+		if next == nil || skiplist.compare.Compare(next.key, key) >= 0 {
+			if level == 0 {
+				return count
+			} else {
+				count = count * kBranching
+				level--
+			}
+		} else {
+			x = next
+			count++
+		}
+	}
+}
